@@ -7,6 +7,6 @@
 
 ### Goals:
 
-- Incrementally designing and planning a db for photo sharing app.
+- Incrementally designing and planning a db for a theoretical photo sharing app (like IG).
 - Optimizing the db
 - Using the db for more complex SQL queries.
