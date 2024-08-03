@@ -10,7 +10,10 @@ Table posts {
   created_at TIMESTAMP
   updated_at TIMESTAMP
   url VARCHAR(255)
-  user_id int [ref: > users.id]
+  user_id INTEGER [ref: > users.id]
+  caption VARCHAR(240)
+  lat REAL 
+  lng REAL
 }
 
 Table comments {
@@ -18,14 +21,31 @@ Table comments {
   created_at TIMESTAMP
   updated_at TIMESTAMP
   contents VARCHAR(240)
-  user_id int [ref: > users.id]
-  post_id int [ref: > posts.id]
+  user_id INTEGER [ref: > users.id]
+  post_id INTEGER [ref: > posts.id]
 }
 
 Table likes {
   id SERIAL [pk, increment]
   created_at TIMESTAMP
-  user_id int [ref: > users.id]
-  comment_id int [ref: > comments.id]
-  post_id int [ref: > posts.id]
+  user_id INTEGER [ref: > users.id]
+  comment_id INTEGER [ref: > comments.id]
+  post_id INTEGER [ref: > posts.id]
+}
+
+Table photo_tags {
+  id SERIAL [pk, increment]
+  created_at TIMESTAMP 
+  updated_at TIMESTAMP
+  post_id INTEGER [ref: > posts.id]
+  user_id INTEGER [ref: > users.id]
+  x INTEGER 
+  y INTEGER
+}
+
+Table caption_tags {
+  id SERIAL [pk, increment]
+  created_at TIMESTAMP 
+  post_id INTEGER [ref: > posts.id]
+  user_id INTEGER [ref: > users.id]
 }
