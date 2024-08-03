@@ -3,6 +3,12 @@ Table users {
   created_at TIMESTAMP
   updated_at TIMESTAMP
   username VARCHAR(30)
+  bio VARCHAR(400)
+  avatar VARCHAR(200)
+  phone VARCHAR(25)
+  email VARCHAR(40)
+  password VARCHAR(50) // rough - full separate discussion.
+  status VARCHAR(15) // Needs a better logic to store acc status from a predefined list of possible acc statuses on the platform.
 }
 
 Table posts {
@@ -25,6 +31,7 @@ Table comments {
   post_id INTEGER [ref: > posts.id]
 }
 
+// no need for updated_at, because disliking/removing the post would be easier to handle with deleting the like.
 Table likes {
   id SERIAL [pk, increment]
   created_at TIMESTAMP
@@ -33,6 +40,7 @@ Table likes {
   post_id INTEGER [ref: > posts.id]
 }
 
+// Tags separated, to avoid polymorphic associations.
 Table photo_tags {
   id SERIAL [pk, increment]
   created_at TIMESTAMP 
@@ -49,3 +57,21 @@ Table caption_tags {
   post_id INTEGER [ref: > posts.id]
   user_id INTEGER [ref: > users.id]
 }
+
+// Separate table for uique hashtags allows to store strings only once and reference by IDs which is more efficient.
+// Only using hashtags in relation to photos, because seraching for hashtags would bring up only photos - initially OK.
+Table hashtags {
+  id SERIAL [pk, increment]
+  created_at TIMESTAMP 
+  title VARCHAR(20)
+}
+
+// hashtags table does not need any fk-s because the hashtags_posts table is a joined table which references both the ashtag and the post.
+// also, no real need for created_at - as post's created_at covers most needed queries.
+Table hashtags_posts {
+  id SERIAL [pk, increment]
+  hashtag_id INTEGER [ref: > hashtags.id]
+  post_id INTEGER [ref: > posts.id]
+}
+
+
