@@ -13,7 +13,7 @@
 
 ### Random notes and query examples:
 
-- measure efficiency with EXPLAIN ANALYZE:
+- investigate query plan and measure efficiency with EXPLAIN ANALYZE:
 
     ```
     EXPLAIN ANALYZE SELECT *
@@ -52,3 +52,15 @@
     FROM pg_class
     WHERE relkind = 'i';
     ```
+
+- Basic query tuning:
+
+    - EXPLAIN and EXPLAIN ANALYZE in SQL or pgadmin internal tools for that with extra features
+    - Stats for a table that postgres maintains:
+
+        ```
+        SELECT *
+        FROM pg_stats
+        WHERE tablename = 'users';
+        ```
+    - 
