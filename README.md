@@ -45,3 +45,10 @@
     - Same for any UNIQUE constraint.
     - *Not visible under indexes in pgadmin.
 
+- Checking auto-generated indexes:
+
+    ```
+    SELECT relname, relkind
+    FROM pg_class
+    WHERE relkind = 'i';
+    ```
