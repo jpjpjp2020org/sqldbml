@@ -15,7 +15,7 @@
 
 - investigate query plan and measure efficiency with EXPLAIN ANALYZE:
 
-    ```
+    ```sql
     EXPLAIN ANALYZE SELECT *
     FROM users
     WHERE username = 'Emil30';
@@ -47,7 +47,7 @@
 
 - Checking auto-generated indexes:
 
-    ```
+    ```sql
     SELECT relname, relkind
     FROM pg_class
     WHERE relkind = 'i';
@@ -58,9 +58,49 @@
     - EXPLAIN and EXPLAIN ANALYZE in SQL or pgadmin internal tools for that with extra features
     - Stats for a table that postgres maintains:
 
-        ```
+        ```sql
         SELECT *
         FROM pg_stats
         WHERE tablename = 'users';
         ```
-    - 
+    - Cost - roughly an amount of work/time to execute some part of a query plan.
+        
+        - Sequential load - reading data from consecutive blocks/pages - generally a little bit faster.
+
+	    - Random load inconsecutive is generally slower.
+
+	    - BUT -  inconsecutive smaller data load could reduce the total load by a lot and come up ahead vs loading all sequentially.
+
+	    - https://www.postgresql.org/docs/current/runtime-config-query.html#RUNTIME-CONFIG-QUERY-CONSTANTS
+
+        - seq_page_cost is the baseline and rest is roughly relative to that.
+
+        - rough cost of a processing step in a query plan:
+
+            ```
+            COST = (#pages read sequentially) * seq_page_cost 
+       		+ (# pages read at random) * random_page_cost 
+       		+ (# rows scanned) * cpu_tuple_cost 
+       		+ (# index entries scanned) * cpu_index_tuple_cost 
+       		+ (# times function/operator evaluated) * cpu_operator_cost
+            ```
+    - Even if you set up an index, Postgres can decide not to use it "when not worth the trouble":
+
+        ```sql
+        EXPLAIN SELECT *
+        FROM likes
+        WHERE created_at < '2013-01-01';
+
+        -- CREATE INDEX likes_created_at_idx ON likes (created_at);
+        ```
+
+        - After flipping the comparison, index is not used and sequential scan is done by Postgres instead:
+
+        ```sql
+        EXPLAIN SELECT *
+        FROM likes
+        WHERE created_at > '2013-01-01';
+        ```
+
+        - Worth to use EXPLAIN and establish if using storage space for an index will be worth it.
+        - Not worth trying to get the index to be used.
