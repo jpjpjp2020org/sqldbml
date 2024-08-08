@@ -11,7 +11,7 @@
 - Optimizing the db
 - Using the db for more complex SQL queries.
 
-### Random notes and query examples:
+### Random notes:
 
 - investigate query plan and measure efficiency with EXPLAIN ANALYZE:
 
@@ -104,3 +104,36 @@
 
         - Worth to use EXPLAIN and establish if using storage space for an index will be worth it.
         - Not worth trying to get the index to be used.
+
+### CTEs in the photo app db:
+
+- EXPLAIN ANALYZE shows no meaningful difference in simple queries, but in complex ones the reusability for CTEs may come into play.
+- CTEs open up recurisve logic in SQL too.
+- Subquery approach - more verbose:
+
+    ```sql
+    SELECT users.username, tags.created_at
+    FROM users
+    JOIN (
+        SELECT user_id, created_at FROM caption_tags
+        UNION ALL
+        SELECT user_id, created_at FROM photo_tags
+    ) AS tags ON tags.user_id = users.id
+    WHERE tags.created_at < '2010-01-07';
+    ```
+
+- CTE approach - cleaner and reusable (can then have a performance gain too in more complex queries):
+
+    ```sql
+    WITH tags AS (
+        SELECT user_id, created_at FROM caption_tags
+        UNION ALL
+        SELECT user_id, created_at FROM photo_tags
+    )
+    SELECT users.username, tags.created_at
+    FROM users
+    JOIN tags ON tags.user_id = users.id
+    WHERE tags.created_at < '2010-01-07';
+    ```
+
+- qwerty
