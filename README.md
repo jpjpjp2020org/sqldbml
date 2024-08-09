@@ -136,4 +136,49 @@
     WHERE tags.created_at < '2010-01-07';
     ```
 
-- qwerty
+### Views:
+
+- DB design issue example - noticing the need to often UNION some existing tables.
+- Could create a new combo table and copy data over / drop existing tables, but comes with issues:
+    - Issues with copying over IDs which need to be unique.
+    - Will break any existing queries refering to separate tables.
+- Better solution would be to create a view (vs CTEs which are tied to a query, views can be crated beforehand and referred when needed).
+
+    ```sql
+    SELECT username, COUNT(*)
+    FROM users
+    JOIN (
+        SELECT user_id, created_at FROM caption_tags
+        UNION ALL
+        SELECT user_id, created_at FROM photo_tags
+    ) As tags ON tags.user_id = users.id
+    GROUP BY users.username
+    ORDER BY count(*) DESC;
+    ```
+
+    VS
+
+    ```sql
+    CREATE VIEW tags AS (
+        SELECT id, created_at, user_id, post_id, 'photo_tag' AS type FROM photo_tags
+        UNION ALL
+        SELECT id, created_at, user_id, post_id, 'caption_tag' AS type FROM caption_tags
+    );
+    ```
+- Can then simplify queries:
+
+    ```sql
+    SELECT username, COUNT(*)
+    FROM users
+    JOIN tags ON tags.user_id = users.id -- alias is mandatory here
+    GROUP BY users.username
+    ORDER BY count(*) DESC;
+    ```
+
+- Views are persistent objects and need to be dropped to lose them vs CTEs.
+- If not materialized, not much storage consumption.
+- Can edit by:
+    ```sql
+    CREATE OR REPLACE VIEW view_name AS ();
+    ```
+
