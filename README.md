@@ -182,3 +182,10 @@
     CREATE OR REPLACE VIEW view_name AS ();
     ```
 
+- Transactions 'aborted state' error fix after BEGIN when cannot COMMIT:
+    -  Requires:
+
+        ```sql
+        ROLLBACK;
+        ```
+
