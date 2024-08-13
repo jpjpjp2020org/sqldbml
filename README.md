@@ -189,3 +189,6 @@
         ROLLBACK;
         ```
 
+- Schema Migration Files:
+
+    - Schema Migration Files: should always contain both Up and Down and migrations are better to be written out in plain SQL to avoid migration packages abstracting away the control over specific changes.
