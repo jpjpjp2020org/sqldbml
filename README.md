@@ -192,3 +192,4 @@
 - Schema Migration Files:
 
     - Schema Migration Files: should always contain both Up and Down and migrations are better to be written out in plain SQL to avoid migration packages abstracting away the control over specific changes.
+    - Best not to do Data migrations and Schema migrations at the same time.
