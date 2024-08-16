@@ -170,7 +170,7 @@
     ```sql
     SELECT username, COUNT(*)
     FROM users
-    JOIN tags ON tags.user_id = users.id -- alias is mandatory here
+    JOIN tags ON tags.user_id = users.id
     GROUP BY users.username
     ORDER BY count(*) DESC;
     ```
