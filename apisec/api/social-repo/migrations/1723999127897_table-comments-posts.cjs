@@ -14,8 +14,16 @@ exports.up = (pgm) => {
             id SERIAL PRIMARY KEY,
             created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-            contents VARCHAR(240) NOT NULL
+            body VARCHAR(240) NOT NULL
         ); 
+    `);
+
+    pgm.sql(`
+        CREATE TABLE posts (
+            id SERIAL PRIMARY KEY,
+            url VARCHAR(300),
+            loc POINT
+        );
     `);
 };
 
@@ -27,5 +35,6 @@ exports.up = (pgm) => {
 exports.down = (pgm) => {
     pgm.sql(`
         DROP TABLE comments;
+        DROP TABLE posts;
     `);
 };
