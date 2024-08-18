@@ -3,3 +3,7 @@ node_modules/
 
 # env
 .env
+apisec/.env
+
+# api section pg data
+apisec/pgdata/
