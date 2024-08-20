@@ -193,3 +193,9 @@
 
     - Schema Migration Files: should always contain both Up and Down and migrations are better to be written out in plain SQL to avoid migration packages abstracting away the control over specific changes.
     - Best not to do Data migrations and Schema migrations at the same time.
+
+- Connection pools:
+
+    - A client can run 1 query at a time, so would use a connection pool which internally maintains several clients.
+    - Exception being with transactions - would use a dedicated client to ensure consistency.
+    - class-based pool initialization makes it easier to set up multiple pools with different configurations - easier to work with multiple DBs.
