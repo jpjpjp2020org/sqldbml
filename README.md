@@ -199,3 +199,4 @@
     - A client can run 1 query at a time, so would use a connection pool which internally maintains several clients.
     - Exception being with transactions - would use a dedicated client to ensure consistency.
     - class-based pool initialization makes it easier to set up multiple pools with different configurations - easier to work with multiple DBs.
+    - The pool.connect method is asynchronous and returns a promise. Server only starts (app.listen) if the connection is successful - app won’t run if it can’t connect to the database.
