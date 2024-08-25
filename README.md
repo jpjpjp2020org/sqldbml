@@ -200,3 +200,14 @@
     - Exception being with transactions - would use a dedicated client to ensure consistency.
     - class-based pool initialization makes it easier to set up multiple pools with different configurations - easier to work with multiple DBs.
     - The pool.connect method is asynchronous and returns a promise. Server only starts (app.listen) if the connection is successful - app won’t run if it can’t connect to the database.
+
+- Repository pattern:
+
+    - Can build the User Repository as an object with plain functions, as an instance of a class, as a class with static methods, etc.
+    - But goal is to have one central body that governs access to the db.
+
+- Casing fixes:
+
+    - Goal is to have cleaner naming convention on all ends (like JS vs postgres)
+
+    ![Casing fix example](./readmepic/casefixingexmp.jpg)
