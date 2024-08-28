@@ -17,9 +17,9 @@ class Pool {
         return this._pool.end();
     }
 
-    // VERY INSECURE, but for examples
-    query(sql) {
-        return this._pool.query(sql);
+    // without params and using user input directy in SQL queries = SQL injection pos.
+    query(sql, params) {
+        return this._pool.query(sql, params);
     }
 }
 
