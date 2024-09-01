@@ -82,6 +82,20 @@ class UserRepo {
 
     }
 
+    static async count() {
+
+        const { rows } = await pool.query(
+            'SELECT COUNT(*) FROM users;'
+        );
+
+        // returning only the count not { count: x } and also as an int
+        // return Number(rows[0].count);
+
+        // using unary plus
+        return +rows[0].count;
+
+    }
+
 }
 
 export default UserRepo;

@@ -211,3 +211,18 @@
     - Goal is to have cleaner naming convention on all ends (like JS vs postgres)
 
     ![Casing fix example](./readmepic/casefixingexmp.jpg)
+
+- Testing:
+
+    - Jest Test Runner can run tests in parallel.
+    - Need to think about concurrency for such tests.
+    - "test": "jest --no-cache" in package.json should ensure concurrent test running if needed..
+    - can use separate schemas for each test file and run tests on copies of tables:
+
+        ```sql
+        CREATE SCHEMA s_name
+
+        CREATE TABLE s_name.t_name
+
+        INSERT INTO s_name.t_name...
+        ```
